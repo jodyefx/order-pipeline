@@ -1,0 +1,29 @@
+@baseUrl = http://localhost:7071/api
+
+### Valid order -> 202 Accepted
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "orderId": "3f2b9c1e-6a4d-4e8b-9f21-7c5d0a1b2c3d",
+  "customerId": "cust-42",
+  "items": [
+    { "sku": "WIDGET-1", "quantity": 2, "unitPrice": 9.99 },
+    { "sku": "GADGET-7", "quantity": 1, "unitPrice": 24.50 }
+  ]
+}
+
+### Invalid order -> 400 with field errors
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "customerId": "",
+  "items": [ { "sku": "", "quantity": 0, "unitPrice": -1 } ]
+}
+
+### Malformed JSON -> 400
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{ "orderId": 
